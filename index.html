@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>음악봇 - 디스코드 최고의 음악 스피커</title>
+    <!-- 폰트 및 아이콘 불러오기 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f111a;
+            --card-bg: #1a1d2e;
+            --primary-color: #5865F2;
+            --primary-hover: #4752C4;
+            --accent-color: #00F2FE;
+            --text-main: #FFFFFF;
+            --text-sub: #B9BBBE;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        /* 헤더 / 네비게이션 */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            background: rgba(15, 17, 26, 0.8);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-main);
+            text-decoration: none;
+        }
+
+        .logo i {
+            color: var(--accent-color);
+        }
+
+        /* 히어로 섹션 */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 120px 20px 60px;
+            background: radial-gradient(circle at 50% 30%, rgba(88, 101, 242, 0.15), transparent 70%);
+        }
+
+        .bot-badge {
+            background: rgba(88, 101, 242, 0.2);
+            color: #8ea1ff;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            border: 1px solid rgba(88, 101, 242, 0.4);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-sub);
+            max-width: 600px;
+            margin-bottom: 40px;
+        }
+
+        /* 버튼 스타일 */
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 20px rgba(88, 101, 242, 0.4);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: var(--card-bg);
+            color: var(--text-main);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-secondary:hover {
+            background-color: #24283f;
+            transform: translateY(-2px);
+        }
+
+        /* 주요 기능 섹션 */
+        .features {
+            padding: 80px 8%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 50px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .feature-card p {
+            color: var(--text-sub);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* 명령어 안내 섹션 */
+        .commands {
+            padding: 80px 8%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .command-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .command-item {
+            background: var(--card-bg);
+            padding: 20px 25px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .command-name {
+            font-family: monospace;
+            font-size: 1.1rem;
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        .command-desc {
+            color: var(--text-sub);
+            font-size: 0.95rem;
+        }
+
+        /* 푸터 */
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-sub);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            .command-item { flex-direction: column; align-items: flex-start; gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 헤더 -->
+    <header>
+        <a href="#" class="logo"><i class="fa-solid fa-compact-disc"></i> 음악 봇</a>
+        <a href="https://discord.com/oauth2/authorize?client_id=
+1525820337579622420&permissions=8&scope=bot%20applications.commands" class="btn btn-primary" style="padding: 8px 18px; font-size: 0.9rem;" target="_blank">초대하기</a>
+    </header>
+
+    <!-- 메인 소개 (히어로) -->
+    <section class="hero">
+        <div class="bot-badge">✨ 고음질 24시간 디스코드 음악 봇</div>
+        <h1>서버 분위기를 업시켜줄<br><span>선명하고 빠르게 작동하는 음악 봇</span></h1>
+        <p>끊김 없는 고음질 음악 재생, 실시간 버튼 컨트롤러, 나만의 추천 곡 목록까지 한 번에 경험해 보세요!</p>
+        
+        <div class="btn-group">
+            <!-- 🔑 YOUR_BOT_CLIENT_ID 부분을 본인의 봇 클라이언트 ID로 변경해 주세요! -->
+            <a href="https://discord.com/oauth2/authorize?client_id=1525820337579622420&permissions=8&scope=bot%20applications.commands" class="btn btn-primary" target="_blank">
+                <i class="fa-brands fa-discord"></i> 서버에 봇 추가하기
+            </a>
+            <a href="#commands" class="btn btn-secondary">
+                <i class="fa-solid fa-list-check"></i> 명령어 확인하기
+            </a>
+        </div>
+    </section>
+
+    <!-- 주요 기능 -->
+    <section class="features">
+        <h2 class="section-title">✨ 주요 기능</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <i class="fa-solid fa-bolt feature-icon"></i>
+                <h3>재생 기능</h3>
+                <p>유튜브 링크나 검색어만 입력하면 검색하신 노래가 재생됩니다..!</p>
+            </div>
+            <div class="feature-card">
+                <i class="fa-solid fa-sliders feature-icon"></i>
+                <h3>조작 기능</h3>
+                <p>복잡한 명령어 대신 클릭 한 번으로 음악 일시정지, 곡 스킵, 퇴장을 조작하실 수 있어요!</p>
+            </div>
+            <div class="feature-card">
+                <i class="fa-solid fa-heart feature-icon"></i>
+                <h3>서버 전용 추천곡</h3>
+                <p>서버만의 최애곡 목록을 등록하고 심심할 때 언제든 추천을 받아볼 수 있습니다.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 명령어 안내 -->
+    <section class="commands" id="commands">
+        <h2 class="section-title">📜 명령어 안내</h2>
+        <div class="command-list">
+            <div class="command-item">
+                <span class="command-name">/재생 [제목 또는 링크]</span>
+                <span class="command-desc">음악을 재생하거나 대기열에 추가합니다.</span>
+            </div>
+            <div class="command-item">
+                <span class="command-name">/대기열</span>
+                <span class="command-desc">현재 재생 중인 노래 및 다음에 나올 예약곡 목록을 확인합니다.</span>
+            </div>
+            <div class="command-item">
+                <span class="command-name">/추천</span>
+                <span class="command-desc">서버에 등록된 노래 추천 목록 중 하나를 무작위로 뽑아줍니다.</span>
+            </div>
+            <div class="command-item">
+                <span class="command-name">/설정</span>
+                <span class="command-desc">봇 전용 알림 채널 및 추천 곡 목록을 추가/관리합니다.</span>
+            </div>
+            <div class="command-item">
+                <span class="command-name">/설정초기화</span>
+                <span class="command-desc">등록된 알림 채널 및 추천 곡 데이터를 초기화합니다.</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 푸터 -->
+    <footer>
+        <p>© 2026 음악봇. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
